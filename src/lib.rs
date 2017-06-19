@@ -1,6 +1,9 @@
+extern crate time;
+
 use std::error::Error;
 use std::fs::File;
 use std::io::prelude::*;
+use time::get_time;
 
 mod compute;
 use compute::count_inc_seq;
@@ -28,7 +31,7 @@ pub fn run(config: Config) -> Result<(), Box<Error>> {
     let mut input = String::new();
 
     f.read_to_string(&mut input)?;
-
+    let start_time = get_time();
     let v: Vec<&str> = input.split('\n').collect();
     let N = v[0].parse::<u32>().expect("parse error");
     let mut start = 1;
@@ -54,6 +57,7 @@ pub fn run(config: Config) -> Result<(), Box<Error>> {
         println!("Case #{:?}: {:?}", i + 1, answer);
         start += 1;
     }
-
+    let end_time = get_time();
+    println!("running time: {:?}ms", (end_time - start_time).num_milliseconds());
     Ok(())
 }
